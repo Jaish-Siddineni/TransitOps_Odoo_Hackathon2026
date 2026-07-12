@@ -1,111 +1,73 @@
-/* --- Premium Split-Screen Auth Layout --- */
+/* =========================================================
+   1. GLOBAL RESET & TYPOGRAPHY
+========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+/* =========================================================
+   2. THE PREMIUM SPLIT-SCREEN LOGIN UI
+========================================================= */
 .split-auth-container {
   display: flex;
   min-height: 100vh;
-  width: 100%;
-  font-family: 'Inter', sans-serif;
-}
-/* Container for all sub-pages */
-.page-content-card {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e2e8f0;
-  margin-top: 1rem;
+  width: 100vw;
 }
 
-/* Consistent Data Tables */
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-}
-
-.data-table th {
-  text-align: left;
-  padding: 1rem;
-  background: #f8fafc;
-  border-bottom: 2px solid #e2e8f0;
-  color: #64748b;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-}
-
-.data-table td {
-  padding: 1rem;
-  border-bottom: 1px solid #f1f5f9;
-}
-/* Left Hero Section */
 .auth-hero {
-  flex: 1;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  flex: 1.2;
+  background-color: #0f172a; /* The Deep Navy Left Side */
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 4rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.auth-hero::before {
-  content: '';
-  position: absolute;
-  top: -20%; left: -10%; width: 50vw; height: 50vw;
-  background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(0,0,0,0) 70%);
-  border-radius: 50%;
 }
 
 .hero-content {
-  max-width: 480px;
-  z-index: 2;
+  max-width: 500px;
 }
 
 .hero-content h1 {
   font-size: 3.5rem;
   font-weight: 800;
-  letter-spacing: -1px;
   margin-bottom: 1rem;
 }
 
 .hero-content p {
-  font-size: 1.1rem;
   color: #94a3b8;
+  font-size: 1.2rem;
   line-height: 1.6;
   margin-bottom: 3rem;
 }
 
-/* Glassmorphism Element */
 .hero-glass-card {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
 }
 
 .hero-glass-card h3 {
-  color: #e2e8f0;
-  margin-bottom: 0.5rem;
+  margin: 0.75rem 0;
+  font-size: 1.2rem;
   font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  color: #f8fafc;
 }
 
-.hero-glass-card h3::before {
-  content: '✓';
-  color: #3b82f6;
-  font-weight: bold;
-}
-
-/* Right Form Section */
 .auth-form-section {
   flex: 1;
-  background: white;
+  background-color: #ffffff; /* The Crisp White Right Side */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -114,79 +76,67 @@
 
 .auth-form-wrapper {
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
 }
 
 .auth-form-wrapper h2 {
-  font-size: 1.8rem;
+  font-size: 2.25rem;
+  font-weight: 700;
   color: #0f172a;
   margin-bottom: 0.5rem;
 }
 
 .auth-form-wrapper .subtitle {
   color: #64748b;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  font-size: 1.05rem;
 }
 
+/* Form Inputs */
 .premium-form .input-group {
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
 }
 
 .premium-form label {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: #334155;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
 }
 
-.premium-form input, 
+.premium-form input,
 .premium-form select {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.875rem 1rem;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
-  background-color: #f8fafc;
   font-size: 1rem;
-  transition: all 0.2s ease;
-  box-sizing: border-box;
+  transition: all 0.2s;
+  background-color: #f8fafc;
 }
 
-.premium-form input:focus, 
+.premium-form input:focus,
 .premium-form select:focus {
   outline: none;
   border-color: #3b82f6;
-  background-color: white;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
-.primary-submit-btn {
-  width: 100%;
-  padding: 0.85rem;
-  background-color: #0f172a;
-  color: white;
-  border: none;
+.error-banner {
+  background-color: #fef2f2;
+  color: #ef4444;
+  padding: 1rem;
   border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  margin-top: 1rem;
-}
-
-.primary-submit-btn:hover {
-  background-color: #1e293b;
-}
-
-.primary-submit-btn:disabled {
-  background-color: #94a3b8;
-  cursor: not-allowed;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  border: 1px solid #fecaca;
 }
 
 .toggle-text {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   text-align: center;
-  font-size: 0.9rem;
   color: #64748b;
 }
 
@@ -200,18 +150,228 @@
   text-decoration: underline;
 }
 
-.error-banner {
-  background-color: #fef2f2;
-  border-left: 4px solid #ef4444;
-  color: #991b1b;
-  padding: 1rem;
-  border-radius: 4px;
-  margin-bottom: 1.5rem;
-  font-size: 0.9rem;
+/* =========================================================
+   3. TOP NAVIGATION DASHBOARD LAYOUT
+========================================================= */
+.top-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8fafc;
 }
 
-/* Make it stack on smaller screens */
-@media (max-width: 768px) {
-  .split-auth-container { flex-direction: column; }
-  .auth-hero { padding: 3rem 2rem; }
+/* The Top Header Bar */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0f172a; /* Deep Navy */
+  color: white;
+  padding: 0 2rem;
+  height: 70px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+/* Brand Area */
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-brand h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.role-badge-top {
+  background: #3b82f6;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Center Links */
+.nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0.5rem;
+}
+
+.nav-links li {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #94a3b8;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.nav-links li:hover {
+  background-color: #1e293b;
+  color: white;
+}
+
+.nav-links li.active {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-weight: 600;
+}
+
+/* Right Side User Profile */
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-email {
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.nav-logout-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.nav-logout-btn:hover {
+  background: #dc2626;
+}
+
+/* Main Workspace */
+.main-content-top {
+  flex: 1;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+/* =========================================================
+   4. CARDS, GRIDS & BUTTONS
+========================================================= */
+.page-content-card {
+  background: #ffffff;
+  padding: 1.75rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.kpi-card {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.kpi-card h3 {
+  margin: 0 0 0.5rem 0;
+  color: #64748b;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.kpi-card p {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.primary-submit-btn {
+  background: #0f172a;
+  color: white;
+  border: none;
+  padding: 0.875rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.primary-submit-btn:hover {
+  opacity: 0.9;
+}
+/* =========================================================
+   5. MODALS & DATA ENTRY FORMS
+========================================================= */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  animation: slideUp 0.3s ease-out forwards;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #0f172a;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #64748b;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: #ef4444;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }

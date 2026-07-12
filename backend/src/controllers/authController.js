@@ -69,7 +69,7 @@ const login = async (req, res) => {
 
     // Fetch Role separately
     const userRole = await Role.findByPk(user.roleId);
-    const roleName = userRole ? userRole.name : 'FLEET_MANAGER';
+    const roleName = userRole ? userRole.name : 'DRIVER'; // Safe default
 
     const token = jwt.sign(
       { id: user.id, role: roleName },

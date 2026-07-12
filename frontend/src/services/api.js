@@ -1,163 +1,208 @@
-// src/services/api.js
-
 const API_URL = "http://localhost:5000/api";
 
-// Helper to get Authorization headers
 const getHeaders = () => {
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("transitops_token");
 
-    return {
-        "Content-Type": "application/json",
-        ...(token ? { Authorization: `Bearer ${token}` } : {})
-    };
+  return {
+    "Content-Type": "application/json",
+    ...(token && {
+      Authorization: `Bearer ${token}`
+    })
+  };
 };
 
-// Helper to handle fetch responses
 const handleResponse = async (res) => {
-    const data = await res.json();
+  const data = await res.json();
 
-    if (!res.ok) {
-        throw new Error(data.error || data.message || "Something went wrong");
-    }
+  if (!res.ok) {
+    throw new Error(
+      data.error || data.message || "Request failed"
+    );
+  }
 
-    return data;
+  return data;
 };
 
 export const api = {
 
-    // ==========================
-    // AUTHENTICATION
-    // ==========================
+  // ===================
+  // LOGIN
+  // ===================
 
-    login: async (credentials) => {
-        const res = await fetch(`${API_URL}/auth/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(credentials)
-        });
+  login: async (credentials) => {
 
-        const data = await handleResponse(res);
+    const res = await fetch(
+      `${API_URL}/auth/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(credentials)
+      }
+    );
 
-        // Save JWT
-        localStorage.setItem("token", data.token);
+    const data = await handleResponse(res);
 
-        // Save logged-in user
-        localStorage.setItem("user", JSON.stringify(data.user));
+    localStorage.setItem(
+      "transitops_token",
+      data.token
+    );
 
-        return data;
-    },
+    localStorage.setItem(
+      "transitops_user",
+      JSON.stringify(data.user)
+    );
 
-    register: async (userData) => {
-        const res = await fetch(`${API_URL}/auth/register`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(userData)
-        });
+    return data;
+  },
 
-        const data = await handleResponse(res);
+  // ===================
+  // REGISTER
+  // ===================
 
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
+  register: async (userData) => {
 
-        return data;
-    },
+    const res = await fetch(
+      `${API_URL}/auth/register`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userData)
+      }
+    );
 
-    logout: () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-    },
+    const data = await handleResponse(res);
 
-    // ==========================
-    // VEHICLES
-    // ==========================
+    localStorage.setItem(
+      "transitops_token",
+      data.token
+    );
 
-    getVehicles: async () => {
-        const res = await fetch(`${API_URL}/vehicles`, {
-            method: "GET",
-            headers: getHeaders()
-        });
+    localStorage.setItem(
+      "transitops_user",
+      JSON.stringify(data.user)
+    );
 
-        return await handleResponse(res);
-    },
+    return data;
+  },
 
-    createVehicle: async (vehicleData) => {
-        const res = await fetch(`${API_URL}/vehicles`, {
-            method: "POST",
-            headers: getHeaders(),
-            body: JSON.stringify(vehicleData)
-        });
+  logout: () => {
+    localStorage.removeItem("transitops_token");
+    localStorage.removeItem("transitops_user");
+  },
 
-        return await handleResponse(res);
-    },
+  // ===================
+  // VEHICLES
+  // ===================
 
-    // ==========================
-    // DRIVERS
-    // ==========================
+  getVehicles: async () => {
+    const res = await fetch(
+      `${API_URL}/vehicles`,
+      {
+        headers: getHeaders()
+      }
+    );
 
-    getDrivers: async () => {
-        const res = await fetch(`${API_URL}/drivers`, {
-            method: "GET",
-            headers: getHeaders()
-        });
+    return handleResponse(res);
+  },
 
-        return await handleResponse(res);
-    },
+  createVehicle: async (vehicle) => {
 
-    // ==========================
-    // TRIPS
-    // ==========================
+    const res = await fetch(
+      `${API_URL}/vehicles`,
+      {
+        method: "POST",
+        headers: getHeaders(),
+        body: JSON.stringify(vehicle)
+      }
+    );
 
-    getTrips: async () => {
-        const res = await fetch(`${API_URL}/trips`, {
-            method: "GET",
-            headers: getHeaders()
-        });
+    return handleResponse(res);
+  },
 
-        return await handleResponse(res);
-    },
+  // ===================
+  // DRIVERS
+  // ===================
 
-    dispatchTrip: async (tripData) => {
-        const res = await fetch(`${API_URL}/trips/dispatch`, {
-            method: "POST",
-            headers: getHeaders(),
-            body: JSON.stringify(tripData)
-        });
+  getDrivers: async () => {
 
-        return await handleResponse(res);
-    },
+    const res = await fetch(
+      `${API_URL}/drivers`,
+      {
+        headers: getHeaders()
+      }
+    );
 
-    // ==========================
-    // FINANCE
-    // ==========================
+    return handleResponse(res);
+  },
 
-    getOperationalCosts: async () => {
-        const res = await fetch(`${API_URL}/finance/costs`, {
-            method: "GET",
-            headers: getHeaders()
-        });
+  // ===================
+  // TRIPS
+  // ===================
 
-        return await handleResponse(res);
-    },
+  getTrips: async () => {
 
-    // ==========================
-    // DASHBOARD
-    // ==========================
+    const res = await fetch(
+      `${API_URL}/trips`,
+      {
+        headers: getHeaders()
+      }
+    );
 
-    getDashboardData: async () => {
-        const [vehicles, trips, drivers] = await Promise.all([
-            api.getVehicles(),
-            api.getTrips(),
-            api.getDrivers()
-        ]);
+    return handleResponse(res);
+  },
 
-        return {
-            vehicles,
-            trips,
-            drivers
-        };
-    }
+  dispatchTrip: async (tripData) => {
+
+    const res = await fetch(
+      `${API_URL}/trips/dispatch`,
+      {
+        method: "POST",
+        headers: getHeaders(),
+        body: JSON.stringify(tripData)
+      }
+    );
+
+    return handleResponse(res);
+  },
+
+  // ===================
+  // FINANCE
+  // ===================
+
+  getOperationalCosts: async () => {
+
+    const res = await fetch(
+      `${API_URL}/finance/costs`,
+      {
+        headers: getHeaders()
+      }
+    );
+
+    return handleResponse(res);
+  },
+
+  // ===================
+  // DASHBOARD
+  // ===================
+
+  getDashboardData: async () => {
+
+    const [vehicles, trips, drivers] =
+      await Promise.all([
+        api.getVehicles(),
+        api.getTrips(),
+        api.getDrivers()
+      ]);
+
+    return {
+      vehicles,
+      trips,
+      drivers
+    };
+  }
+
 };
