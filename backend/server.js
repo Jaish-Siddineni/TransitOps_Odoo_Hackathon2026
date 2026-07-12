@@ -1,20 +1,22 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const sequelize = require('./config/database');
+
+// Notice the added '/src' in all of these paths!
+const sequelize = require('./src/config/database');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 // Import Routes
-const authRoutes = require('./routes/authRoutes');
-const vehicleRoutes = require('./routes/vehicleRoutes');
-const driverRoutes = require('./routes/driverRoutes');
-const maintenanceRoutes = require('./routes/maintenanceRoutes');
-const tripRoutes = require('./routes/tripRoutes'); 
-const financeRoutes = require('./routes/financeRoutes');
-const expenseRoutes = require('./routes/expenseRoutes');
+const authRoutes = require('./src/routes/authRoutes');
+const vehicleRoutes = require('./src/routes/vehicleRoutes');
+const driverRoutes = require('./src/routes/driverRoutes');
+const maintenanceRoutes = require('./src/routes/maintenanceRoutes');
+const tripRoutes = require('./src/routes/tripRoutes'); 
+const financeRoutes = require('./src/routes/financeRoutes');
+const expenseRoutes = require('./src/routes/expenseRoutes');
 
 // Mount Routes
 app.use('/api/auth', authRoutes);
@@ -28,9 +30,9 @@ app.use('/api/expenses', expenseRoutes);
 const PORT = process.env.PORT || 5000;
 
 // Sync Database and Start Server
-sequelize.sync({ alter: true }) // Auto-updates MySQL tables during hackathon dev
+sequelize.sync({ alter: true }) 
   .then(() => {
-    console.log(' MySQL Database Synchronized');
+    console.log('✅ MySQL Database Synchronized');
     app.listen(PORT, () => console.log(`🚀 TransitOps API running on port ${PORT}`));
   })
-  .catch(err => console.error('Database connection error:', err));
+  .catch(err => console.error('❌ Database connection error:', err));
