@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../store/AuthContext';
+import { useAuth } from '../../store/AuthContext';
 
 export default function Dashboard() {
   // Grab user for RBAC conditional rendering, token for secure fetching
