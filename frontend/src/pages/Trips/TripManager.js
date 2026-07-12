@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import PageContainer from '../../components/PageContainer';
 export default function TripManager() {
   const [cargoWeight, setCargoWeight] = useState('');
   const [selectedVehicleCap, setSelectedVehicleCap] = useState(500); // e.g., Van-05 capacity

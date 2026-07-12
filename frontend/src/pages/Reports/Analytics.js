@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PageContainer from '../../components/PageContainer';
 export default function Analytics() {
   // Sample calculation data for vehicle KA-01-EQ-1234
   const revenue = 150000;

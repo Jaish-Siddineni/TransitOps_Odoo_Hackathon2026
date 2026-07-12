@@ -1,14 +1,36 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const Role = sequelize.define('Role', {
-  id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-  name: { 
-    type: DataTypes.STRING, 
-    unique: true, 
+const User = sequelize.define('User', {
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true
+  },
+
+  name: {
+    type: DataTypes.STRING(255),
+    allowNull: false
+  },
+
+  email: {
+    type: DataTypes.STRING(255),
     allowNull: false,
-    validate: { isIn: [['FLEET_MANAGER', 'DRIVER', 'SAFETY_OFFICER', 'FINANCIAL_ANALYST']] }
+    unique: true
+  },
+
+  password: {
+    type: DataTypes.STRING(255),
+    allowNull: false
+  },
+
+  roleId: {
+    type: DataTypes.UUID,
+    allowNull: false
   }
+
+}, {
+  tableName: 'Users'
 });
 
-module.exports = Role;
+module.exports = User;

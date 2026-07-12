@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import PageContainer from '../../components/PageContainer';
 export default function VehicleList() {
   const [vehicles, setVehicles] = useState([
     { id: 1, regNo: 'KA-01-EQ-1234', model: 'Tata Ace', type: 'VAN', capacity: 500, odometer: 15000, cost: 500000, status: 'Available' },

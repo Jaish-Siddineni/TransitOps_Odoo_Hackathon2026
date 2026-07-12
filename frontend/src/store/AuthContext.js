@@ -23,12 +23,17 @@ export const AuthProvider = ({ children }) => {
 
   // Login function to update state and local storage
   const login = (userData, jwtToken) => {
-    setUser(userData);
-    setToken(jwtToken);
-    localStorage.setItem('transitops_user', JSON.stringify(userData));
-    localStorage.setItem('transitops_token', jwtToken);
-  };
+  console.log("LOGIN CALLED");
+  console.log("userData =", userData);
+  console.log("jwtToken =", jwtToken);
+  console.log("typeof jwtToken =", typeof jwtToken);
 
+  setUser(userData);
+  setToken(jwtToken);
+
+  localStorage.setItem("transitops_user", JSON.stringify(userData));
+  localStorage.setItem("transitops_token", jwtToken);
+};
   // Logout function to clear session
   const logout = () => {
     setUser(null);

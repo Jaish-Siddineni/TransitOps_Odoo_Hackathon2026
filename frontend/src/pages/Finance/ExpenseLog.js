@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import PageContainer from '../../components/PageContainer';
 export default function ExpenseLog() {
   const [fuelLogs, setFuelLogs] = useState([
     { id: 1, vehicle: 'KA-01-EQ-1234', liters: 40, cost: 4000, date: '2026-07-11', type: 'Fuel' },

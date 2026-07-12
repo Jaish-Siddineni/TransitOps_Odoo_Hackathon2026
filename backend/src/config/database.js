@@ -9,7 +9,7 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST,
     dialect: 'mysql', // Switched to MySQL
-    logging: false, // Keeps the terminal clean during the hackathon
+    logging: console.log, // Keeps the terminal clean during the hackathon
     pool: {
       max: 5,
       min: 0,
