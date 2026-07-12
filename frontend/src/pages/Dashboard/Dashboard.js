@@ -20,53 +20,34 @@ console.log("Dashboard token type =", typeof token);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        const [vehiclesRes, tripsRes, driversRes] = await Promise.all([
-          fetch('http://localhost:5000/api/vehicles', { 
-            headers: { 'Authorization': `Bearer ${token}` } 
-          }),
-          fetch('http://localhost:5000/api/trips', { 
-            headers: { 'Authorization': `Bearer ${token}` } 
-          }),
-          fetch('http://localhost:5000/api/drivers', { 
-            headers: { 'Authorization': `Bearer ${token}` } 
-          })
-        ]);
+    // Inside Dashboard.js -> useEffect -> fetchDashboardData
+const fetchDashboardData = async () => {
+  // Extract string safely
+  const jwtString = typeof token === 'object' && token !== null 
+    ? (token.token || token.jwt) 
+    : token;
+
+  // Debugging: confirm string presence
+  console.log("Clean Token String:", jwtString);
+
+  try {
+    const [vehiclesRes, tripsRes, driversRes] = await Promise.all([
+      fetch('http://localhost:5000/api/vehicles', { 
+        headers: { 'Authorization': `Bearer ${jwtString}` } 
+      }),
+      // ... same for other fetches
+    ]);
+    // ...
 
         if (!vehiclesRes.ok || !tripsRes.ok || !driversRes.ok) {
-          throw new Error('Failed to fetch command center telemetry from MySQL.');
+          throw new Error('Failed to fetch telemetry from server.');
         }
 
         const vehicles = await vehiclesRes.json();
         const trips = await tripsRes.json();
         const drivers = await driversRes.json();
 
-        const filteredVehicles = filterType === 'ALL' 
-          ? vehicles 
-          : vehicles.filter(v => v.type === filterType);
-
-        const activeV = filteredVehicles.filter(v => v.status === 'On Trip').length;
-        const availableV = filteredVehicles.filter(v => v.status === 'Available').length;
-        const inShopV = filteredVehicles.filter(v => v.status === 'In Shop').length;
-        const totalV = filteredVehicles.length;
-        
-        const utilization = totalV === 0 ? 0 : ((activeV / totalV) * 100).toFixed(1);
-
-        const activeT = trips.filter(t => t.status === 'Dispatched').length;
-        const pendingT = trips.filter(t => t.status === 'Draft').length;
-        const onDutyD = drivers.filter(d => d.status === 'On Trip').length;
-
-        setKpis({
-          activeVehicles: activeV,
-          availableVehicles: availableV,
-          inMaintenance: inShopV,
-          activeTrips: activeT,
-          pendingTrips: pendingT,
-          driversOnDuty: onDutyD,
-          fleetUtilization: utilization
-        });
-
+        // ... rest of your KPI calculation logic
       } catch (err) {
         setError(err.message);
       } finally {
@@ -75,7 +56,7 @@ console.log("Dashboard token type =", typeof token);
     };
 
     fetchDashboardData();
-  }, [filterType, token]);
+  }, [filterType, token]);// <--- This line must be exactly here at the end// Dependencies remain the same
 
   if (loading) return <div style={{ padding: '20px', fontFamily: 'Inter' }}>Loading Live Telemetry...</div>;
   if (error) return <div style={{ padding: '20px', color: '#ef4444', fontFamily: 'Inter' }}>Error: {error}</div>;

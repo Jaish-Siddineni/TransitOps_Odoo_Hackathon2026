@@ -22,17 +22,18 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Login function to update state and local storage
-  const login = (userData, jwtToken) => {
-  console.log("LOGIN CALLED");
-  console.log("userData =", userData);
-  console.log("jwtToken =", jwtToken);
-  console.log("typeof jwtToken =", typeof jwtToken);
+// In your AuthContext login function:
+// src/store/AuthContext.js
+const login = (tokenData, userData) => {
+  // If tokenData is an object, extract the string value. 
+  // If it's already a string, use it directly.
+  const actualToken = typeof tokenData === 'object' && tokenData !== null 
+    ? (tokenData.token || tokenData.jwt) 
+    : tokenData;
 
+  localStorage.setItem('token', actualToken);
+  setToken(actualToken);
   setUser(userData);
-  setToken(jwtToken);
-
-  localStorage.setItem("transitops_user", JSON.stringify(userData));
-  localStorage.setItem("transitops_token", jwtToken);
 };
   // Logout function to clear session
   const logout = () => {
